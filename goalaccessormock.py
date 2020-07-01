@@ -1,0 +1,58 @@
+import goalaccessor
+import datetime
+import json
+import os
+
+
+class GoalAccessorMock(goalaccessor.GoalAccessor):
+    def __init__(self):
+        self._goals = self.readStore()
+        super().__init__()
+
+    def getGoals(self, user: str) -> list:
+        return self._goals
+
+    def getGoal(self, id: int) -> dict:
+        return self.getGoalLocal(id)
+
+    def addGoal(self, goal: dict) -> dict:
+        id = self.getNewGoalId()
+        goal['id'] = id
+        self._goals.append(goal)
+        self.saveStore()
+        return goal
+
+    def updateGoal(self, goal: dict) -> dict:
+        g = self.getGoalLocal(int(goal['id']))
+        for k in goal:
+            g[k] = goal[k]
+        self.saveStore()
+        return g
+
+    def deleteGoal(self, id: int):
+        g = self.getGoalLocal(id)
+        self._goals.remove(g)
+        self.saveStore()
+
+    def getGoalLocal(self, id: int) -> dict:
+        for g in self._goals:
+            if int(g['id']) == int(id):
+                return g
+        raise goalaccessor.GoalNotAvailableException()
+
+    def getNewGoalId(self) -> int:
+        id = 0
+        for g in self._goals:
+            if g['id'] > id:
+                id = g['id']
+        return id+1
+
+    def readStore(self) -> list:
+        if os.path.exists('goalstore.json'):
+            with open('goalstore.json', mode='r') as mf:
+                return json.load(mf)
+        return []
+
+    def saveStore(self):
+        with open('goalstore.json', mode='w') as mf:
+            mf.write(json.dumps(self._goals))
