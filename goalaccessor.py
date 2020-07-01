@@ -11,7 +11,7 @@ class GoalAccessor(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def getGoal(self, id: int) -> dict:
+    def getGoal(self, id: str) -> dict:
         pass
 
     @abc.abstractmethod
@@ -23,5 +23,5 @@ class GoalAccessor(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def deleteGoal(self, id: int):
+    def deleteGoal(self, id: str):
         pass

@@ -12,12 +12,10 @@ class GoalAccessorMock(goalaccessor.GoalAccessor):
     def getGoals(self, user: str) -> list:
         return self._goals
 
-    def getGoal(self, id: int) -> dict:
+    def getGoal(self, id: str) -> dict:
         return self.getGoalLocal(id)
 
     def addGoal(self, goal: dict) -> dict:
-        id = self.getNewGoalId()
-        goal['id'] = id
         self._goals.append(goal)
         self.saveStore()
         return goal
@@ -29,23 +27,16 @@ class GoalAccessorMock(goalaccessor.GoalAccessor):
         self.saveStore()
         return g
 
-    def deleteGoal(self, id: int):
+    def deleteGoal(self, id: str):
         g = self.getGoalLocal(id)
         self._goals.remove(g)
         self.saveStore()
 
-    def getGoalLocal(self, id: int) -> dict:
+    def getGoalLocal(self, id: str) -> dict:
         for g in self._goals:
-            if int(g['id']) == int(id):
+            if g['id'] == id:
                 return g
         raise goalaccessor.GoalNotAvailableException()
-
-    def getNewGoalId(self) -> int:
-        id = 0
-        for g in self._goals:
-            if g['id'] > id:
-                id = g['id']
-        return id+1
 
     def readStore(self) -> list:
         if os.path.exists('goalstore.json'):
