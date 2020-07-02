@@ -1,10 +1,10 @@
-import goalaccessor
+import goal.goalaccessor
 import datetime
 import json
 import os
 
 
-class GoalAccessorMock(goalaccessor.GoalAccessor):
+class GoalAccessorMock(goal.goalaccessor.GoalAccessor):
     def __init__(self):
         self._goals = self.readStore()
         super().__init__()
@@ -36,7 +36,7 @@ class GoalAccessorMock(goalaccessor.GoalAccessor):
         for g in self._goals:
             if g['id'] == id:
                 return g
-        raise goalaccessor.GoalNotAvailableException()
+        raise goal.goalaccessor.GoalNotAvailableException()
 
     def readStore(self) -> list:
         if os.path.exists('goalstore.json'):

@@ -25,3 +25,4 @@ class GoalAccessor(abc.ABC):
     @abc.abstractmethod
     def deleteGoal(self, id: str):
         pass
+

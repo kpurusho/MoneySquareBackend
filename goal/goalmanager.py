@@ -1,8 +1,8 @@
-import goalaccessor
+import goal.goalaccessor
 
 
 class GoalManager:
-    def __init__(self, goalAccessor: goalaccessor.GoalAccessor):
+    def __init__(self, goalAccessor: goal.goalaccessor.GoalAccessor):
         self._goalAccessor = goalAccessor
         super().__init__()
 
