@@ -26,9 +26,6 @@ jobs:
         platform: python
         platform-version: '3.7'
 
-    - name: Run tests
-    - run: python -m unittest discover -s 'tests'
-
     - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v1
       with:
